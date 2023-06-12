@@ -1,0 +1,108 @@
+<style>
+    div{
+        @import url(https://fonts.cdnfonts.com/css/dune-rise);
+        font-family: 'Dune Rise', 'sans-serif';
+        font-size: 48px;
+        font-weight: bolder;
+        color: white;
+    }
+    span{
+        @import url(https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap);
+        font-family: 'Orbitron', 'sans-serif';
+    }
+    
+    
+    button{
+            background-color: #bd2eff;
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+    button:hover{
+        box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    }
+    button:active{
+        box-shadow: 0 9px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);;
+        transform: translateY(3px);
+    }
+    body{    
+        /*background-image: linear-gradient(to right, #000000, #434343);
+        background-color: #4f5b66;*/
+        background-image: linear-gradient(to right, #0F2027, #203A43, #2C5364);
+    }
+    
+
+
+</style>
+
+<form>
+    <br><br><br>
+    <center><button type="button" class="button" id="start_button"><b>Computer!</b></button></center>
+</form>
+<div> 
+    <center><br>Prompt:<br><br> <span id="prompt" name="prompt"></span></center>
+    <br><br>
+    <center>Response: <br><br><span id="response"></span></center>
+</div>
+<script>
+    const SpeechRecognition = window.SpeechRecognition || webkitSpeechRecognition;
+    const SpeechRecognitionEvent = window.SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+    
+
+    const SpeechRecognizer = new SpeechRecognition();
+    SpeechRecognizer.continuous = false; //does not pick up where it left off
+    SpeechRecognizer.lang = "en-US"; //language 
+    SpeechRecognizer.interimResults = false; 
+
+    let speech = new SpeechSynthesisUtterance();
+
+    speech.lang = "en";
+    //change the voice so it doesn't sound like the default tts robot
+
+    SpeechRecognizer.onresult = function(e){ //once event is triggered, we activate this
+        console.log(e.results);
+        const text_output = e.results[0][0].transcript; //transcript of the results (don't forget to ask why it's [0][0])
+        front_end(text_output);
+    } 
+
+    document.getElementById("start_button").onclick = function (){
+        console.log('CLICK!!')
+        SpeechRecognizer.start();
+    }
+    SpeechRecognizer.onspeechend = function() {   
+        SpeechRecognizer.stop();
+    }
+
+    
+    function front_end(result) {
+        console.log(result);
+        const url = 'display.php';
+        const storage = new XMLHttpRequest();
+
+        const form_data = new FormData();
+        form_data.append('SpeechRecognitionResult', result);
+
+        storage.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                try{
+                    const response_data = (JSON.parse(storage.responseText));
+                    console.log(response_data);
+                    document.getElementById("prompt").innerHTML = response_data.prompt.substring(0,1).toUpperCase() + response_data.prompt.substring(1); //prompt only is returned when you get the answer
+                    //document.getElementById("character_count").innerHTML = response_data.length;
+                    document.getElementById("response").innerHTML = response_data.response;
+                    speech.text = response_data.response;
+                    window.speechSynthesis.speak(speech);
+              } catch (err){
+                 console.log(storage.responseText);
+              }
+            }
+        } 
+        storage.open('POST',url);
+        storage.send(form_data);
+    }
+</script>
