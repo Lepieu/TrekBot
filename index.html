@@ -1,26 +1,64 @@
 <style>
+@import url(https://fonts.cdnfonts.com/css/dune-rise);
+@import url(https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap);    
     div{
-        @import url(https://fonts.cdnfonts.com/css/dune-rise);
+        
         font-family: 'Dune Rise', 'sans-serif';
         font-size: 48px;
         font-weight: bolder;
         color: white;
+
+        /* blinking light */
+        overflow: hidden;
+        border-right: .15em #D3D3D3;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .24em;
+        animation:
+            typing 5s steps(37, end),
+            blinker .75s step-end infinite;
     }
+    @keyframes typing {
+        from {width: 0 }
+        to {width: 100%}
+    }
+    @keyframes blinker {
+        from, to {border-color: transparent }
+        50% { border-color: #D3D3D3; }
+    }
+    
     span{
-        @import url(https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap);
+        
         font-family: 'Orbitron', 'sans-serif';
+     /* blinking light */
+        overflow: hidden;
+        border-right: .15em #D3D3D3;
+        white-space: nowrap;
+        margin: 0 auto;
+        letter-spacing: .24em;
+        animation: 
+            typing 3.5s steps(40, end),
+            blink-caret .75s step-end infinite;
+    }
+    @keyframes typing {
+        from { width: 0 }
+        to {width: 100%}
+    }
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #D3D3D3; }
     }
     
     
     button{
-            background-color: #120c83;
+            background-color: #282828;
             color: white;
             border: none;
-            padding: 15px 32px;
+            padding: 24px 48px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
+            font-size: 24px;
             border-radius: 8px;
         }
     button:hover{
@@ -35,6 +73,7 @@
         background-color: #4f5b66;*/
         background-image: linear-gradient(to right, #0F2027, #203A43, #2C5364);
     }
+
     
 
 
