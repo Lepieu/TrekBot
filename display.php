@@ -6,7 +6,7 @@
     }    
 
     try {
-        $py = new Python('challenge');
+        $py = new Python('hello');
     } catch (Throwable $e) {
         $data['errors'][] = $e->getMessage();
     }
