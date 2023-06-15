@@ -6,7 +6,7 @@
     }    
 
     try {
-        $py = new Python('hello');
+        $py = new Python('challenge');
     } catch (Throwable $e) {
         $data['errors'][] = $e->getMessage();
     }
@@ -21,6 +21,7 @@
     } catch (Throwable $e) {
         $data['errors'][] = $e->getMessage();
     }
+
 
     
     echo json_encode($data);
