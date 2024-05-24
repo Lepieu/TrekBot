@@ -1,4 +1,4 @@
-#TREKBOT!
+# TREKBOT!
 
 Trekbot is a web-based voice controller for ChatGPT like "Computer" in Star Trek.  
 
